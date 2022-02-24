@@ -7,5 +7,6 @@ CreateHostBuilder().Build().Run();
     return Host.CreateDefaultBuilder().ConfigureWebHostDefaults(webhost => {
 
         webhost.UseStartup<Startup>();
+
     });
 }
