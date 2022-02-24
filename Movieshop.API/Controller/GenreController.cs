@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Movieshop.API.ResponseModel;
+
 namespace Movieshop.API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MovieController : ControllerBase
+    public class GenreController : ControllerBase
     {
-       
+        [Route("list")]
+        public IActionResult GetAll()
+        {
+            return Ok();
+        }
     }
 }
