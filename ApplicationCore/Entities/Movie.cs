@@ -2,14 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 
 namespace ApplicationCore.Entities
 {
+   
     public class Movie
     {
         public int Id { get; set; }
+        
+        [MaxLength(50)]
+        [Column(TypeName ="varchar")]
         public string Title { get; set; }
+        [Column(TypeName = "varchar")]
+        [MaxLength(200)]
         public string? Overview { get; set; }
         public string? Tagline { get; set; }
         public decimal? Budget { get; set; }
