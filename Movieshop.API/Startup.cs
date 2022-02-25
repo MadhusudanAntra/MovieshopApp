@@ -4,6 +4,8 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using ApplicationCore.Contracts.Services;
+using Infrastructure.Services;
 
 namespace Movieshop.API
 {
@@ -20,7 +22,8 @@ namespace Movieshop.API
            service.AddDbContext<MovieShopDbContext>( option=> {
                option.UseSqlServer(Configuration.GetConnectionString("MovieShopDB"));
            });
-            //service.AddScoped<IMovieRepository, MovieRepository>();
+            service.AddScoped<IGenreRepository, GenreRepository>();
+            service.AddScoped<IGenreService, GenreService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

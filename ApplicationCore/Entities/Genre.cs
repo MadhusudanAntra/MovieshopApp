@@ -13,6 +13,7 @@ namespace ApplicationCore.Entities
         
         public string Name { get; set; }
 
+        //navigational
         public List<MovieGenre> MoviesOfGenre { get; set; }
 
     }

@@ -5,38 +5,60 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using ApplicationCore.Contracts.Repositories;
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Repositories
 {
     public class BaseRepository<T> : IRepository<T> where T : class
     {
-        public int Delete(int id)
+        protected readonly MovieShopDbContext _db;
+        public BaseRepository(MovieShopDbContext _con)
         {
-            throw new NotImplementedException();
+             _db = _con;
+        }
+        public int Delete(int id)
+
+        {
+            var entity = _db.Set<T>().Find(id);
+            if (entity != null)
+            {
+                _db.Set<T>().Remove(entity);
+                return 1;
+            }
+            return 0;
+
         }
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _db.Set<T>().ToList();
         }
 
-        public T GetByCondition(Expression<Predicate<T>> filter)
+        public IEnumerable<T> GetByCondition(Expression<Func<T,bool>> filter)
         {
-            throw new NotImplementedException();
+            return _db.Set<T>().Where(filter);
         }
 
         public T GetById(int id)
         {
-            throw new NotImplementedException();
+           return _db.Set<T>().Find(id);
+            
         }
 
         public int Insert(T entity)
         {
-            throw new NotImplementedException();
+            _db.Set<T>().Add(entity);
+            _db.SaveChanges();
+            return 1;
         }
 
         public int Update(T entity)
         {
-            throw new NotImplementedException();
+            _db.Entry(entity).State = EntityState.Modified;
+            _db.SaveChanges();
+            return 1;
         }
+
+       
     }
 }
