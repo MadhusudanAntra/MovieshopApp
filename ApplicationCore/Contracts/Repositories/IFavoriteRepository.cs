@@ -4,14 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ApplicationCore.Entities;
-
 namespace ApplicationCore.Contracts.Repositories
 {
-    public interface IMovieRepository : IRepository<Movie>
+    public interface IFavoriteRepository:IRepository<Favorite>
     {
-        IEnumerable<Movie> Get30HighestRatedMovies();
-        IEnumerable<Movie> GetByGenre(int id);
-        
-
+        IEnumerable<Favorite> GetAllFavoritesForUser(int id);
     }
 }

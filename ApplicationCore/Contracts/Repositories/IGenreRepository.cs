@@ -1,14 +1,13 @@
-﻿using ApplicationCore.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using ApplicationCore.Entities;
 namespace ApplicationCore.Contracts.Repositories
 {
-    public interface ICastRepository:IRepository<Cast>
+    public interface IGenreRepository:IRepository<Genre>
     {
-        Cast GetCast(int id);
+        IEnumerable<Genre> GetAll();
     }
 }
