@@ -8,6 +8,12 @@ namespace ApplicationCore.Contracts.Services
 {
     public interface IMovieService
     {
+        List<MovieCardResponseModel> GetTop30GrossingMovies();
+        List<MovieCardResponseModel> GetTop30GRatedMovies();
+        MovieDetailsResponseModel GetMovieDetails(int id);
+        List<MovieCardResponseModel> MoviesSameGenre(int id);
+        PagedResultSet<MovieCardResponseModel> GetMoviesByPagination(int pageSize, int page, string title);
+       
 
     }
 }

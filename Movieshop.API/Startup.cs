@@ -23,7 +23,14 @@ namespace Movieshop.API
                option.UseSqlServer(Configuration.GetConnectionString("MovieShopDB"));
            });
             service.AddScoped<IGenreRepository, GenreRepository>();
+            service.AddScoped<IMovieRepository, MovieRepository>();
+            service.AddScoped<ICastRepository,ICastRepository>();
+            
+            
             service.AddScoped<IGenreService, GenreService>();
+            service.AddScoped<IMovieService,MovieService>();
+            service.AddScoped<ICastService,CastService>();
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
