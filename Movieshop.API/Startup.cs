@@ -19,17 +19,20 @@ namespace Movieshop.API
         public void ConfigureServices(IServiceCollection service)
         {
             service.AddControllers();
-           service.AddDbContext<MovieShopDbContext>( option=> {
-               option.UseSqlServer(Configuration.GetConnectionString("MovieShopDB"));
-           });
+
             service.AddScoped<IGenreRepository, GenreRepository>();
             service.AddScoped<IMovieRepository, MovieRepository>();
-            service.AddScoped<ICastRepository,ICastRepository>();
-            
-            
+            service.AddScoped<ICastRepository, CastRepository>();
+
+
             service.AddScoped<IGenreService, GenreService>();
-            service.AddScoped<IMovieService,MovieService>();
-            service.AddScoped<ICastService,CastService>();
+            service.AddScoped<IMovieService, MovieService>();
+            service.AddScoped<ICastService, CastService>();
+
+            service.AddDbContext<MovieShopDbContext>( option=> {
+               option.UseSqlServer(Configuration.GetConnectionString("MovieShopDB"));
+           });
+          
             
         }
 

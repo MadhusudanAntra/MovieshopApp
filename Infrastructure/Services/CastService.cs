@@ -11,16 +11,16 @@ namespace Infrastructure.Services
 {
     public class CastService : ICastService
     {
-        private readonly ICastRepository _castService;
+        private readonly ICastRepository _castRepository;
 
-        public CastService(ICastRepository castService)
+        public CastService(ICastRepository castRepository)
         {
-            _castService = castService;
+            _castRepository = castRepository;
         }
         public CastResponseModel GetAllCast(int id)
         {
 
-            var castDeatil =  _castService.GetById(id);
+            var castDeatil = _castRepository.GetById(id);
 
             var castModels = new CastResponseModel
             {
