@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ApplicationCore.Contracts.Repositories;
 using ApplicationCore.Entities;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -19,7 +20,7 @@ namespace Infrastructure.Repositories
 
         public Cast GetCast(int id)
         {
-            return _db.Casts.Where(x=>x.Id == id).FirstOrDefault();
+            return _db.Casts.Where(x => x.Id == id).FirstOrDefault();
         }
     }
 }
