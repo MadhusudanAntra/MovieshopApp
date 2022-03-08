@@ -19,6 +19,11 @@ namespace Movieshop.API
         public void ConfigureServices(IServiceCollection service)
         {
             service.AddControllers();
+            service.AddCors(option => {
+                option.AddDefaultPolicy(builder => {
+                    builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                });
+            });
 
             service.AddScoped<IGenreRepository, GenreRepository>();
             service.AddScoped<IMovieRepository, MovieRepository>();
@@ -43,7 +48,7 @@ namespace Movieshop.API
             }
 
             app.UseRouting();
-            
+            app.UseCors();
             app.UseEndpoints(endpoints => {
                endpoints.MapControllers();
             });

@@ -14,53 +14,53 @@ namespace Infrastructure.Repositories
     public class MovieRepository : BaseRepository<Movie>, IMovieRepository
     {
         MovieShopDbContext _dbContext;
-        public MovieRepository(MovieShopDbContext context):base(context)
+        public MovieRepository(MovieShopDbContext context) : base(context)
         {
-            _dbContext= context;
+            _dbContext = context;
         }
-        public List<Movie> Get30HighestGrossingMovies()
+        public async Task<List<Movie>> Get30HighestGrossingMoviesAsync()
         {
-            var movies = _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(30).ToList();
+            var movies = await _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(30).ToListAsync();
 
             return movies;
         }
 
-        public List<Movie> Get30HighestRatedMovies()
+        public async Task<List<Movie>> Get30HighestRatedMoviesAsync()
         {
-            var topRatedMovies =  _dbContext.Reviews.Include(r => r.Movie).GroupBy(r => new { r.MovieId, r.Movie.PosterUrl, r.Movie.Title })
+            var topRatedMovies = await _dbContext.Reviews.Include(r => r.Movie).GroupBy(r => new { r.MovieId, r.Movie.PosterUrl, r.Movie.Title })
                 .OrderByDescending(m => m.Average(r => r.Rating)).Select(m => new Movie
                 {
                     Id = m.Key.MovieId,
                     PosterUrl = m.Key.PosterUrl,
                     Title = m.Key.Title,
-                }).Take(30).ToList();
+                }).Take(30).ToListAsync();
 
             return topRatedMovies;
         }
 
-        public decimal GetMovieRating(int id)
+        public async Task<decimal> GetMovieRatingAsync(int id)
         {
-            var movieRating =  _dbContext.Reviews.Where(r => r.MovieId == id).DefaultIfEmpty().Average(r => r == null ? 0 : r.Rating);
+            var movieRating = await _dbContext.Reviews.Where(r => r.MovieId == id).DefaultIfEmpty().AverageAsync(r => r == null ? 0 : r.Rating);
             return movieRating;
         }
 
-        public PagedResultSet<Movie> GetMoviesByTitle(int pageSize = 30, int page = 1, string title = "")
+        public async Task<PagedResultSet<Movie>> GetMoviesByTitleAsync(int pageSize = 30, int page = 1, string title = "")
         {
-            var movies =  _dbContext.Movies.Where(m => m.Title.Contains(title)).OrderBy(m => m.Title).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var movies = await _dbContext.Movies.Where(m => m.Title.Contains(title)).OrderBy(m => m.Title).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
             // total movies  for that condition 
             // select count(*) from Movies where title like '%ave%'
 
-            var totalMoviesCount = _dbContext.Movies.Where(m => m.Title.Contains(title)).Count();
+            var totalMoviesCount = await _dbContext.Movies.Where(m => m.Title.Contains(title)).CountAsync();
 
             var pagedMovies = new PagedResultSet<Movie>(movies, page, pageSize, totalMoviesCount);
 
             return pagedMovies;
         }
 
-        public List<Movie> GetMoviesSameGenre(int id)
+        public async Task<List<Movie>> GetMoviesSameGenreAsync(int id)
         {
-            var genreMovies =  _dbContext.MovieGenres.Include(m => m.Movie).Where(m => m.GenreId == id).Select(m => m.Movie).ToList();
+            var genreMovies = await _dbContext.MovieGenres.Include(m => m.Movie).Where(m => m.GenreId == id).Select(m => m.Movie).ToListAsync();
             return genreMovies;
         }
     }

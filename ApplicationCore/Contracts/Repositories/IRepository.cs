@@ -9,11 +9,11 @@ namespace ApplicationCore.Contracts.Repositories
 {
     public interface IRepository<T> where T : class
     {
-        int Insert(T entity);
-        int Update(T entity);
-        int Delete(int id);
-        IEnumerable<T> GetAll();
-        IEnumerable<T> GetByCondition(Expression<Func<T, bool>> filter);
-        T GetById(int id);
+        Task<int> InsertAsync(T entity);
+        Task<int> UpdateAsync(T entity);
+        Task<int> DeleteAsync(int id);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> filter);
+       Task<T> GetByIdAsync(int id);
     }
 }

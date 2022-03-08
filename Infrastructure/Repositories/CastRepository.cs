@@ -18,9 +18,9 @@ namespace Infrastructure.Repositories
             _db = dbContext;
         }
 
-        public Cast GetCast(int id)
+        public async Task<Cast> GetCastAsync(int id)
         {
-            return _db.Casts.Where(x => x.Id == id).FirstOrDefault();
+            return await _db.Casts.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
     }
 }

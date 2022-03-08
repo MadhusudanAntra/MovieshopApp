@@ -13,13 +13,13 @@ namespace MovieShopMVC.Controllers
         }
         public IActionResult Index()
         {
-            var movies = _movieService.GetMoviesByPagination(10, 1, "");
+            var movies = _movieService.GetMoviesByPaginationAsync(10, 1, "");
             return View(movies);
         }
         [HttpGet]
         public IActionResult Genre(int id)
         { 
-       var data =  _movieService.MoviesSameGenre(id);
+       var data =  _movieService.MoviesSameGenreAsync(id);
             return View(data);
         }
 
@@ -33,7 +33,7 @@ namespace MovieShopMVC.Controllers
         {
             try
             {
-                _movieService.AddMovie(model);
+                _movieService.AddMovieAsync(model);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

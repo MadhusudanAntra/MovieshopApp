@@ -9,7 +9,7 @@ using ApplicationCore.Models;
 using ApplicationCore.Entities;
 namespace Infrastructure.Services
 {
-    public class MovieService:IMovieService
+    public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
         public MovieService(IMovieRepository movieRepository)
@@ -17,7 +17,7 @@ namespace Infrastructure.Services
             _movieRepository = movieRepository;
         }
 
-        public void AddMovie(MovieCreateRequestModel model)
+        public async Task AddMovieAsync(MovieCreateRequestModel model)
         {
             Movie movie = new Movie();
             if (model != null)
@@ -25,7 +25,7 @@ namespace Infrastructure.Services
                 movie.BackdropUrl = model.BackdropUrl;
                 movie.Title = model.Title;
                 movie.Budget = model.Budget;
-                movie.ImdbUrl= model.ImdbUrl;
+                movie.ImdbUrl = model.ImdbUrl;
                 movie.OriginalLanguage = model.OriginalLanguage;
                 movie.Overview = model.Overview;
                 movie.PosterUrl = model.PosterUrl;
@@ -36,20 +36,20 @@ namespace Infrastructure.Services
                 movie.Tagline = model.Tagline;
                 movie.Title = model.Title;
                 movie.TmdbUrl = model.TmdbUrl;
-               _movieRepository.Insert(movie);
+                await _movieRepository.InsertAsync(movie);
 
             }
         }
 
-        public void DeleteMovie(int id)
+        public async Task DeleteMovieAsync(int id)
         {
-            _movieRepository.Delete(id);
+            await _movieRepository.DeleteAsync(id);
         }
 
-        public  MovieDetailsResponseModel GetMovieDetails(int id)
+        public async Task<MovieDetailsResponseModel> GetMovieDetailsAsync(int id)
         {
-            var movieDetails =  _movieRepository.GetById(id);
-            var rating =  _movieRepository.GetMovieRating(id);
+            var movieDetails = await _movieRepository.GetByIdAsync(id);
+            var rating = await _movieRepository.GetMovieRatingAsync(id);
 
             var movieModel = new MovieDetailsResponseModel
             {
@@ -88,9 +88,9 @@ namespace Infrastructure.Services
             return movieModel;
 
         }
-        public  PagedResultSet<MovieCardResponseModel> GetMoviesByPagination(int pageSize, int page, string title)
+        public async Task<PagedResultSet<MovieCardResponseModel>> GetMoviesByPaginationAsync(int pageSize, int page, string title)
         {
-            var pagedMovies =  _movieRepository.GetMoviesByTitle(pageSize, page, title);
+            var pagedMovies = await _movieRepository.GetMoviesByTitleAsync(pageSize, page, title);
 
             var pagedMovieCards = new List<MovieCardResponseModel>();
 
@@ -104,9 +104,9 @@ namespace Infrastructure.Services
             return new PagedResultSet<MovieCardResponseModel>(pagedMovieCards, page, pageSize, pagedMovies.Count);
 
         }
-        public  List<MovieCardResponseModel> GetTop30GRatedMovies()
+        public async Task<List<MovieCardResponseModel>> GetTop30GRatedMoviesAsync()
         {
-            var topRatedMovies =  _movieRepository.Get30HighestRatedMovies();
+            var topRatedMovies = await _movieRepository.Get30HighestRatedMoviesAsync();
 
             var movieCards = new List<MovieCardResponseModel>();
             foreach (var movie in topRatedMovies)
@@ -122,10 +122,10 @@ namespace Infrastructure.Services
             return movieCards;
 
         }
-        public  List<MovieCardResponseModel> GetTop30GrossingMovies()
+        public async Task<List<MovieCardResponseModel>> GetTop30GrossingMoviesAsync()
         {
             // we need to call the MovieRepository and get the data from Movies Table
-            var movies =  _movieRepository.Get30HighestGrossingMovies();
+            var movies = await _movieRepository.Get30HighestGrossingMoviesAsync();
             // map the data from movies (List<Movie>) to movieCards (List<MovieCardResponseModel>)
 
             var movieCards = new List<MovieCardResponseModel>();
@@ -143,9 +143,9 @@ namespace Infrastructure.Services
             return movieCards;
         }
 
-        public List<MovieCardResponseModel> MoviesSameGenre(int id)
+        public async Task<List<MovieCardResponseModel>> MoviesSameGenreAsync(int id)
         {
-            var genreMovies = _movieRepository.GetMoviesSameGenre(id);
+            var genreMovies = await _movieRepository.GetMoviesSameGenreAsync(id);
 
             var genreModel = new List<MovieCardResponseModel>();
 
@@ -161,7 +161,7 @@ namespace Infrastructure.Services
             return genreModel;
         }
 
-        public void UpdateMovie(MovieCreateRequestModel model)
+        public async Task UpdateMovieAsync(MovieCreateRequestModel model)
         {
             Movie movie = new Movie();
             if (model != null)
@@ -180,7 +180,7 @@ namespace Infrastructure.Services
                 movie.Tagline = model.Tagline;
                 movie.Title = model.Title;
                 movie.TmdbUrl = model.TmdbUrl;
-                _movieRepository.Update(movie);
+                await _movieRepository.UpdateAsync(movie);
 
             }
         }

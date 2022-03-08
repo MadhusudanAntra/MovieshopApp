@@ -8,6 +8,6 @@ namespace ApplicationCore.Contracts.Services
 {
     public interface ICastService
     {
-        CastResponseModel GetAllCast(int id);
+       Task<CastResponseModel> GetAllCastAsync(int id);
     }
 }
