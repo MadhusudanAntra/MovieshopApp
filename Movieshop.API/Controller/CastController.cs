@@ -12,6 +12,7 @@ namespace Movieshop.API.Controller
         public CastController(ICastService castService)
         {
             _castService = castService;
+
         }
 
         [HttpGet]
