@@ -6,6 +6,7 @@ namespace Movieshop.API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class CastController : ControllerBase
     {
         private readonly ICastService _castService;
