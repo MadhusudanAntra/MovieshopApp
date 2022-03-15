@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using ApplicationCore.Contracts.Services;
 using ApplicationCore.Models;
+using Microsoft.AspNetCore.Authorization;
+
 namespace Movieshop.API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GenreController : ControllerBase
     {
         private readonly IGenreService genreService;
@@ -26,10 +29,10 @@ namespace Movieshop.API.Controller
         }
 
         [HttpPost]
-        
+        [Route("add")]
         public async Task<IActionResult> Post(GenreModel model)
         {
-            if (await genreService.InsertGenreAsync(model) >0)
+            if (await genreService.InsertGenreAsync(model) > 0)
                 return Ok(model);
             return BadRequest();
         }
@@ -37,16 +40,18 @@ namespace Movieshop.API.Controller
         [Route("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            var response = new { Message = "deleted" };
             if (await genreService.DeleteGenreAsync(id) > 0)
-                return Ok("Genre is deleted");
+                return Ok(response);
             return NoContent();
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(GenreModel m)
         {
+            var response = new { Message = "Genre is updated" };
             if (await genreService.UpdateGenreAsync(m) > 0)
-                return Ok("Genre is updated");
+                return Ok(response);
             return NoContent();
         }
     }

@@ -36,6 +36,7 @@ namespace Movieshop.API.Controller
         [Route("toprevenue")]
         public async Task<IActionResult> GetTopRevenueMovies()
         {
+            //throw new Exception("some error has occured");
             var movies =await  _movieService.GetTop30GrossingMoviesAsync();
 
             if (!movies.Any())
